@@ -1,66 +1,30 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**Secret-Key Message Project**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a simple Secret-Key Message application developed using the Laravel framework and MySQL.
 
-## About Laravel
+**Running and Testing the Project**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Execute the command: `docker-compose up --build`
+- Use the Postman collection file attached to the email
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Project Details**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+In the Secret-Key project, depending on the criticality of the issue, different solutions can be chosen for designing the logic and removing expired messages.
 
-## Learning Laravel
+1. **Removing Expired Messages**
+   - Expired messages are removed when a user references them; if a message has expired, it will be deleted and the user will receive an appropriate response.
+   - Two approaches can be used:
+     - **Task Scheduler:**  
+       This option runs every minute, which means a message may not be deleted at its exact expiration time. It is ideal if you prefer a centralized cleanup process that runs periodically with lower sensitivity.
+     - **Delayed Jobs:**  
+       This solution is cleaner and more precise, as it deletes each record at its exact expiration time; however, it uses more resources and requires a properly configured queue system.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Design Pattern for Developing the Secret-Key**
+   - The current implementation stores the Secret-Key in the database, which is the least secure option but is compatible with the task requirements. (The task description specified that only dependency installation was required, and alternative solutions would necessitate additional OS configuration.)
+   - Alternative design patterns for storing the Secret-Key include:
+     - **Storing the Secret-Key in a File:**  
+       The key can be saved in a file located in a secure directory.
+     - **Key Encryption Key (KEK):**  
+       A KEK is a cryptographic key used exclusively to encrypt and protect other keys, providing an extra layer of security. In this approach, the primary key is encrypted by another key and stored in the database, while the secondary key is stored in a secure file location.
+     - **Cloud Key Management Services (Cloud KMS):**  
+       Major cloud providers, such as AWS, Google Cloud, and Azure, offer managed key management services that securely store and manage keys.
