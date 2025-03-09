@@ -1,6 +1,6 @@
 **Secret-Key Message Project**
 
-This project is a simple Secret-Key Message application developed using the Laravel framework and MySQL.
+This project is a simple Secret-Key Message application was developed by me(Alireza Basirati) using the Laravel framework and MySQL.
 
 **Running and Testing the Project**
 
